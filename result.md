@@ -270,3 +270,81 @@ Executing "ninja size-files"...
 │ spi_bus_lock.c.obj                  │          4 │    0 │    0 │     0 │    0 │     0 │        0 │          0 │     0 │          4 │       4 │        0 │        0 │           0 │        0 │                  0 │
 └─────────────────────────────────────┴────────────┴──────┴──────┴───────┴──────┴───────┴──────────┴────────────┴───────┴────────────┴─────────┴──────────┴──────────┴─────────────┴──────────┴────────────────────┘
 ```
+
+- 1. เพิ่ม Build Information (ใน Docker Container) ผลการ simulate
+```c
+Adding "qemu"'s dependency "all" to list of commands with default set of options.
+Executing action: all (aliases: build)
+Running ninja in directory /project/lab6_1_basic_build/build
+Executing "ninja all"...
+[1/4] cd /project/lab6_1_basic_bu...uild/build/lab6_1_basic_build.bin 
+lab6_1_basic_build.bin binary size 0x279c0 bytes. Smallest app partition is 0x100000 bytes. 0xd8640 bytes (85%) free.
+[1/1] cd /project/lab6_1_basic_bu...d/build/bootloader/bootloader.bin 
+Bootloader binary size 0x66a0 bytes. 0x960 bytes (8%) free.
+[4/4] Completed 'bootloader'Executing action: qemu
+Generating flash image: /project/lab6_1_basic_build/build/qemu_flash.bin
+esptool.py --chip=esp32 merge_bin --output=/project/lab6_1_basic_build/build/qemu_flash.bin --fill-flash-size=2MB --flash_mode dio --flash_freq 40m --flash_size 2MB 0x1000 bootloader/bootloader.bin 0x10000 lab6_1_basic_build.bin 0x8000 partition_table/partition-table.bin
+esptool.py v4.9.0
+SHA digest in image updated
+Wrote 0x200000 bytes to file /project/lab6_1_basic_build/build/qemu_flash.bin, ready to flash to offset 0x0
+Using existing efuse image: /project/lab6_1_basic_build/build/qemu_efuse.bin
+Running qemu (fg): qemu-system-xtensa -M esp32 -m 4M -drive file=/project/lab6_1_basic_build/build/qemu_flash.bin,if=mtd,format=raw -drive file=/project/lab6_1_basic_build/build/qemu_efuse.bin,if=none,format=raw,id=efuse -global driver=nvram.esp32.efuse,property=drive,value=efuse -global driver=timer.esp32.timg,property=wdt_disable,value=true -nic user,model=open_eth -nographic -serial mon:stdio
+Adding SPI flash device
+ets Jul 29 2019 12:21:46
+
+rst:0x1 (POWERON_RESET),boot:0x12 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0030,len:6372
+load:0x40078000,len:15928
+load:0x40080400,len:3880
+entry 0x40080638
+I (1776) boot: ESP-IDF v6.0-dev-1002-gbfe5caf58f 2nd stage bootloader
+I (1782) boot: compile time Aug  6 2025 02:48:37
+I (1786) boot: Multicore bootloader
+I (3089) boot: chip revision: v3.0
+I (3096) boot.esp32: SPI Speed      : 40MHz
+I (3099) boot.esp32: SPI Mode       : DIO
+I (3101) boot.esp32: SPI Flash Size : 2MB
+I (3277) boot: Enabling RNG early entropy source...
+I (3462) boot: Partition Table:
+I (3462) boot: ## Label            Usage          Type ST Offset   Length
+I (3464) boot:  0 nvs              WiFi data        01 02 00009000 00006000
+I (3466) boot:  1 phy_init         RF data          01 01 0000f000 00001000
+I (3467) boot:  2 factory          factory app      00 00 00010000 00100000
+I (3631) boot: End of partition table
+I (4923) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=09484h ( 38020) map
+I (5585) esp_image: segment 1: paddr=000194ac vaddr=3ff80000 size=00024h (    36) load
+I (6221) esp_image: segment 2: paddr=000194d8 vaddr=3ffb0000 size=025e0h (  9696) load
+I (6827) esp_image: segment 3: paddr=0001bac0 vaddr=40080000 size=04558h ( 17752) load
+I (7620) esp_image: segment 4: paddr=00020020 vaddr=400d0020 size=0ef10h ( 61200) map
+I (8287) esp_image: segment 5: paddr=0002ef38 vaddr=40084558 size=08a60h ( 35424) load
+I (10325) boot: Loaded app from partition at offset 0x10000
+I (10326) boot: Disabling RNG early entropy source...
+I (10525) cpu_start: Multicore app
+I (20242) cpu_start: Pro cpu start user code
+I (20244) cpu_start: cpu freq: 160000000 Hz
+I (20246) app_init: Application information:
+I (20247) app_init: Project name:     lab6_1_basic_build
+I (20248) app_init: App version:      1
+I (20249) app_init: Compile time:     Aug  6 2025 02:48:09
+I (20253) app_init: ELF file SHA256:  e2d62c64e...
+I (20254) app_init: ESP-IDF:          v6.0-dev-1002-gbfe5caf58f       
+I (20256) efuse_init: Min chip rev:     v0.0
+I (20257) efuse_init: Max chip rev:     v3.99
+I (20258) efuse_init: Chip rev:         v3.0
+I (20262) heap_init: Initializing. RAM available for dynamic allocation:
+I (20265) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM
+I (20267) heap_init: At 3FFB2EA8 len 0002D158 (180 KiB): DRAM
+I (20268) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM        
+I (20270) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM       
+I (20273) heap_init: At 4008CFB8 len 00013048 (76 KiB): IRAM
+I (20380) spi_flash: detected chip: winbond
+I (20394) spi_flash: flash io: dio
+I (20421) main_task: Started on CPU0
+I (20431) main_task: Calling app_main()
+I (20431) LAB6_1: Lab 6.1: Basic ESP32 Project Structure
+I (20441) LAB6_1: ESP-IDF Version: v6.0-dev-1002-gbfe5caf58f
+I (20441) LAB6_1: Free heap size: 304636 bytes
+```
