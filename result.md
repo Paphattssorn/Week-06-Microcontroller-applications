@@ -1,7 +1,8 @@
 - idf.py size ดูขนาด binary
-![Uploading สกรีนช็อต 2025-08-06 095230.png…]()
+<img width="1920" height="1020" alt="image" src="https://github.com/user-attachments/assets/795b541e-d491-4c0b-9331-e189692bb716" />
 
 - idf.py size-components > size-components.txt
+```c
 Executing action: size-components
 Running ninja in directory /project/lab6_1_basic_build/build
 Executing "ninja all"...
@@ -51,3 +52,4 @@ Executing "ninja size-components"...
 │ libnvs_sec_provider.a   │          5 │    0 │    0 │     0 │     0 │     0 │        0 │          5 │     5 │          0 │       0 │        0 │        0 │           0 │        0 │                  0 │
 │ libesp_phy.a            │          5 │    0 │    0 │     0 │     0 │     0 │        0 │          5 │     5 │          0 │       0 │        0 │        0 │           0 │        0 │                  0 │
 └─────────────────────────┴────────────┴──────┴──────┴───────┴───────┴───────┴──────────┴────────────┴───────┴────────────┴─────────┴──────────┴──────────┴─────────────┴──────────┴────────────────────┘
+```
